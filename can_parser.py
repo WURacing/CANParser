@@ -44,7 +44,7 @@ class CANParser(abc.ABC):
 		self.db = cantools.database.load_file(self.dbc_file)
 
 	def __get_units_from_signals(self, signals, sig_name):
-		for signal in signal:
+		for signal in signals:
 			if signal.name == sig_name:
 				return signal.unit
 
