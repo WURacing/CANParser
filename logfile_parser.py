@@ -1,4 +1,4 @@
-import can_parser
+import canparser
 import re
 
 LINE_FORMAT = '(?P<timestamp>\d+),(?P<id>[0-9A-F]+),(?P<data>[0-9A-F]{16})'
@@ -7,7 +7,7 @@ pattern = re.compile(LINE_FORMAT)
 EXTENDED_MASK = 0x1FFFFFFF
 STANDARD_MASK = 0x7FF
 
-class LogFileCANParser(can_parser.CANParser):
+class LogFileCANParser(canparser.CANParser):
 
 	def __init__(self, dbc_file, log_file):
 		super().__init__(dbc_file)

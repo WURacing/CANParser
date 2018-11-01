@@ -43,6 +43,10 @@ class CANParser(abc.ABC):
 		self.dbc_file = dbc_file
 		self.db = cantools.database.load_file(self.dbc_file)
 
+	"""
+	We could memoize- but these lists don't typically get 
+	longer than ~8; doesn't seem worth it
+	"""
 	def __get_units_from_signals(self, signals, sig_name):
 		for signal in signals:
 			if signal.name == sig_name:
