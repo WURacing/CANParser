@@ -20,6 +20,7 @@ packet_schema = schema.Schema({
 signal_schema = schema.Schema({
 	'timestamp': int,
 	'epoch': bool,
+	'sender': str,
 	'msg_name': str,
 	'sig_name': str,
 	'sig_val': float,
@@ -32,6 +33,7 @@ be identical in every signal
 message_schema = schema.Schema({
 	'timestamp': int,
 	'epoch': bool,
+	'sender': str,
 	'msg_name': str,
 	'msg_id': int,
 	'signals': [signal_schema]
@@ -72,12 +74,19 @@ class CANParser(abc.ABC):
 			except KeyError:
 				continue
 			msg['msg_name'] = msg_inf.name
+			"""
+			I am choosing to assume that all messages will have only one sender
+			I do not see this changing on our bus any time soon, but make note
+			of this line if it does
+			"""
+			msg['sender'] = msg_inf.senders[0]
 			msg['signals'] = []
 			signals = self.db.decode_message(msg_inf.frame_id, packet['data'])
 			for sig_name, sig_val in signals.items():
 				signal = {
 					'timestamp': msg['timestamp'],
 					'epoch': msg['epoch'],
+					'sender': msg['sender'],
 					'msg_name': msg_inf.name,
 					'sig_name': sig_name,
 					'sig_val': sig_val
