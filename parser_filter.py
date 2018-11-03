@@ -37,8 +37,10 @@ class ParserFilter():
 	"""
 	def __dispatch_signal_to_filters(self, signal):
 		output = []
-		sig_id = (signal["sender"], signal())
-		for sig_filt in self.__sigs_to_filt[]
+		sig_id = (signal["sender"], signal["msg_name"], signal["sig_name"])
+		for sig_filt in self.__sigs_to_filt[sig_id]:
+			output += sig_filt.input(signal)
+		return output
 
 	def packets(self):
 		if self.parser is not None:
@@ -61,11 +63,30 @@ class ParserFilter():
 	filtered signals (possibly none)
 	"""
 	def filter_signal(self, signals):
-		
+
+		if !isinstance(signals, list):
+			signals = [signals]
+
+		output = signals[:]
+		filter_queue = signals
+		"""
+		Double loop is necessary because it's possible for filtered signals
+		to be inputs to other filters
+		"""
+		while len(filter_queue) > 0:
+			new_queue = []
+			for signal in filter_queue:
+				filtered = self.__dispatch_signal_to_filters(signal)
+				output += filtered
+				new_queue += filtered
+			filter_queue = new_queue
+
+		return output
+
 
 	def filtered_signals(self):
 		for signal in self.signals():
-
+			yield from self.filter_signal(signal)
 
 class SignalFilter(abc.ABC):
 
