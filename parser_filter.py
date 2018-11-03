@@ -36,7 +36,9 @@ class ParserFilter():
 	signal, or an empty list if none
 	"""
 	def __dispatch_signal_to_filters(self, signal):
-		
+		output = []
+		sig_id = (signal["sender"], signal())
+		for sig_filt in self.__sigs_to_filt[]
 
 	def packets(self):
 		if self.parser is not None:
@@ -79,6 +81,11 @@ class SignalFilter(abc.ABC):
 		self.input_signals = input_signals
 		self.output_signals = output_signals
 
+	"""
+	Input: one signal object
+	Output: A list of any possible output filtered signals from the input
+	signal, or an empty list if none
+	"""
 	@abc.abstractmethod
 	def input(signal):
 		pass
