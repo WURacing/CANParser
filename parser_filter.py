@@ -89,20 +89,3 @@ class SignalFilter(abc.ABC):
 	@abc.abstractmethod
 	def input(signal):
 		pass
-
-"""
-LinearComboFilter
-Input: Input Signals, Coefficients, Constant
-Output: List of output signals???
-"""
-class LinearComboFilter(SignalFilter):
-
-	signals = []
-
-    def __init__(self, input_signals, coefficient, c):
-        self. coefficient = coefficient
-        self.c = c
-
-    def input(signal):
-		self.signals.append(signal.timestamp)
-		return signal.sig_val*coefficient + c
