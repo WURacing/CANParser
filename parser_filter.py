@@ -1,4 +1,9 @@
 import abc
+"""
+We don't actually use this import, but I'm keeping it because I want
+the schema objects to be in scope wherever we construct packet, message,
+or signal objects.
+"""
 import canparser
 
 """
@@ -14,7 +19,7 @@ class ParserFilter():
 	We don't actually need a parser, it's also valid for a calling function
 	to just pass signals into the filter manually
 	"""
-	def __init__(self, parser=None, signal_filters):
+	def __init__(self, signal_filters, parser=None):
 
 		self.parser = parser
 		self.signal_filters = signal_filters
@@ -37,9 +42,10 @@ class ParserFilter():
 	"""
 	def __dispatch_signal_to_filters(self, signal):
 		output = []
-		sig_id = (signal["sender"], signal["msg_name"], signal["sig_name"])
-		for sig_filt in self.__sigs_to_filt[sig_id]:
-			output += sig_filt.input(signal)
+		sig_id = (signal['sender'], signal['msg_name'], signal['sig_name'])
+		if sig_id in self.__sigs_to_filt:
+			for sig_filt in self.__sigs_to_filt[sig_id]:
+				output += sig_filt.input(signal)
 		return output
 
 	def packets(self):
@@ -64,7 +70,7 @@ class ParserFilter():
 	"""
 	def filter_signal(self, signals):
 
-		if !isinstance(signals, list):
+		if not isinstance(signals, list):
 			signals = [signals]
 
 		output = signals[:]

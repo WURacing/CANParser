@@ -14,7 +14,7 @@ class LogFileCANParser(canparser.CANParser):
 		self.log_file = log_file
 
 	def packets(self):
-		with open(self.log_file, 'r') as f:
+		with open(self.log_file, 'r', errors='ignore') as f:
 			for line in f.readlines():
 				#Sometimes the logger skips newlines
 				matches = re.findall(pattern,line)
