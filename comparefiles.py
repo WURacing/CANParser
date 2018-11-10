@@ -55,7 +55,7 @@ def findLength(pathPrefix, arr, lengths_arr):
 
 #Compares lengths between each file of ECU and Other CAN Data, appends next file in ECU files to current ECU file if the lengths
 #of current file is less than length of corresponding Other file
-def compareLengths(pathPrefix1, pathPrefix2)
+def compareLengths(pathPrefix1, pathPrefix2):
     with open(pathPrefix1) as csv_file1, open(pathPrefix2) as csv_file2:
         ECUIndex = 0
         for lOther in LengthsOther:
@@ -67,4 +67,4 @@ def compareLengths(pathPrefix1, pathPrefix2)
 
 
 readCSV()
-compareLengths()
+compareLengths('./ECUCANData/', './OtherCANData/')
