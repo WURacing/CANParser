@@ -72,6 +72,7 @@ class CANParser(abc.ABC):
 			try:
 				msg_inf = self.db.get_message_by_frame_id(msg['msg_id'])
 			except KeyError:
+				print(f"Missing {msg['msg_id']} in DBC")
 				continue
 			msg['msg_name'] = msg_inf.name
 			"""
