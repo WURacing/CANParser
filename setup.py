@@ -12,6 +12,6 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/WURacing/CANParser",
-    packages=['can_parser'],
+    packages=['canparser'],
     install_requires=['cantools']
 )
