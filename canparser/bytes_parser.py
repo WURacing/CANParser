@@ -14,7 +14,7 @@ class BytesCANParser(canparser.CANParser):
         self.bytes = bytes
 
     def packets(self):
-        with open(self.vytes, 'rb', errors='ignore') as f:
+        with open(self.bytes, 'rb', errors='ignore') as f:
             for line in f.readlines():
                 #Sometimes the logger skips newlines
                 matches = re.findall(pattern, line)
