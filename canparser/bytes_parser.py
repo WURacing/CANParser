@@ -14,24 +14,23 @@ class BytesCANParser(canparser.CANParser):
         self.bytes = bytes
 
     def packets(self):
-        with open(self.bytes, 'r', errors='ignore') as f:
-            for line in f.readlines():
-                #Sometimes the logger skips newlines
-                matches = re.findall(pattern, line)
-                for match in matches:
-                    timestamp, msg_id, data = match
+        for line in self.bytes.split('\n'):
+            #Sometimes the logger skips newlines
+            matches = re.findall(pattern, line)
+            for match in matches:
+                timestamp, msg_id, data = match
 
-                    timestamp = int(timestamp)
-                    msg_id = int(msg_id, 16) & EXTENDED_MASK
-                    data = bytes.fromhex(data)
+                timestamp = int(timestamp)
+                msg_id = int(msg_id, 16) & EXTENDED_MASK
+                data = bytes.fromhex(data)
 
-                    #Epoch and extended are assumed for now
-                    packet = {
-                        'timestamp': timestamp,
-                        'epoch': False,
-                        'extended': True,
-                        'msg_id': msg_id,
-                        'data': data
-                    }
+                #Epoch and extended are assumed for now
+                packet = {
+                    'timestamp': timestamp,
+                    'epoch': False,
+                    'extended': True,
+                    'msg_id': msg_id,
+                    'data': data
+                }
 
-                    yield packet
+                yield packet
